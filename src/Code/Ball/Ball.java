@@ -2,6 +2,7 @@ package Code.Ball;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 import static java.lang.Math.*;
 
@@ -84,6 +85,19 @@ public class Ball {
                 this.ball_direction_Y = -1;
                 break;
         }
+
+
+    }
+    public String getDirection() {
+        // the direction of the ball  X = 1; ball is going to the right x = -1; ball is going to the left
+        // the direction of the ball  Y = 1; ball is going down  Y = -1; ball is going up
+        if(ball_direction_X == 1 && ball_direction_Y ==1 ){
+            return "down-right";
+        } else if ( this.ball_direction_X == -1 && this.ball_direction_Y == -1) {
+            return "down-left";
+        } else if (ball_direction_X == -1 && ball_direction_Y ==1) {
+            return"top-left";
+        }else return "top-right";
 
 
     }
@@ -174,13 +188,14 @@ public class Ball {
 
         String collided_side = "none";
 
-        //pythogre theory
+        //pythagorean theorem
         double radius = diameter/2;
         double ball_middle_point_x =  radius + predicted_X ; // a
         double ball_middle_point_y =  radius + predicted_Y ; // b
         double closestX = ball_middle_point_x;
         double closestY = ball_middle_point_y;
-     //check which point of the rectangle x and y of the edge of the rectangle is the closest to the point of the circle
+      //check which point of the rectangle x and y of the edge of the rectangle is the closest to the point of the circle
+        //find the close X and Y of where the ball collided
         if (ball_middle_point_x < collided_left) {
             closestX = collided_left;      // test left edge
         }
@@ -194,29 +209,35 @@ public class Ball {
         else if (ball_middle_point_y >collided_bottom) {
             closestY =collided_bottom;// bottom edge
         }
-        //pytheogorem theory
+
+        //pythagorean theorem this is the formula of getting the distance
         double a = ball_middle_point_x-closestX;
         double b = ball_middle_point_y-closestY;
+
         double distance = sqrt( (a*a) + (b*b) );
 
 
      //collision checking
+        // if the distance is less than or equal the radius of the ball
+        // it collided
+
         if (distance <=radius) {
             hit = true;
+
              //check if the ball is inside the box
             // remove it from inside send it to the neareast area without the bricks
                 if(isInsideCollsion(collided_top,collided_left,collided_right,collided_bottom)){
                     double collision_outside_x = ball_X - diameter * toNearestOne(ball_direction_X);
                     double collision_outside_y = ball_Y - diameter * toNearestOne(ball_direction_Y);
-                    setBallPosition(collision_outside_x, collision_outside_y);
-                    isHit(collided_left,collided_top , collided_width, collided_height);
+                    setBallPosition(collision_outside_x, collision_outside_y); //change the ball position
+                    isHit(collided_left,collided_top , collided_width, collided_height); // call this method again
                 }
 
             //collision
             //check collision base on their direction
+            // checking which part of the bricks or paddle got hit
             if(ball_direction_Y >0  && ball_direction_X>0) {// top going to right
                 collided_side =  predicted_Y <= collided_top? "top":"left";
-
             }
             else  if (ball_direction_Y <0  && ball_direction_X>0){ //bottom to right
                 collided_side =  predicted_Y+diameter >= collided_bottom? "bottom":"left";
@@ -226,17 +247,17 @@ public class Ball {
 
             }else if (ball_direction_Y <0  && ball_direction_X<0) { //bottom  to left
                 collided_side =  predicted_Y+diameter >= collided_bottom? "bottom":"right";
-
             }
-
             // apply ball physics
-            //bounce the ball
+            //to change the reduce the speed of the X and Y coordinates
             ballPhysics(collided_side ,ball_middle_point_x,ball_middle_point_y,collided_left,collided_right,collided_bottom,collided_top);
+            //bounce the ball
             bounce(collided_side ,collided_left,collided_right,collided_bottom,collided_top);
 
         }
         return  hit;
     }
+    // this method is for checking if the ball is inside the paddle or the brick
     private boolean isInsideCollsion(int collided_top,int  collided_left,int collided_right, int collided_bottom){
         if (
                 predicted_X>= collided_left &&
@@ -248,9 +269,10 @@ public class Ball {
                  return false;
 
     }
-private boolean stopdrawing = false;
-    private void bounce(String ballSideCollided,double collidedLeft, double collidedRight, double collidedBottom, double collidedTop) {
 
+    // how will the ball bounce
+    // on where it collided
+    private void bounce(String ballSideCollided,double collidedLeft, double collidedRight, double collidedBottom, double collidedTop) {
     switch (ballSideCollided){
         case "top":
             setBallPosition(predicted_X, collidedTop - (diameter));
@@ -271,14 +293,13 @@ private boolean stopdrawing = false;
             inverseX();
             break;
     }
-
     }
 
     public void ballPhysics(String collisionSide, double ball_middle_point_x, double ball_middle_point_y, double collided_left, double collided_right, double collided_bottom, int collided_top) {
 
-        //find how
+
         //check how far is the ball from the tip of the paddle width or height
-        //
+
         double width_of_rectangle = collided_right - collided_left;
         double extra_space_x = collided_left;
         double ball_point_x = ball_middle_point_x - extra_space_x;
@@ -295,6 +316,16 @@ private boolean stopdrawing = false;
         if (ball_direction_X < 0) {
             decimal_percentage_x = 1 - decimal_percentage_x;
         }
+        if (ball_direction_Y >0) {
+            decimal_percentage_y = 1 - decimal_percentage_y;
+        }
+        //prevent for stuck
+        if(decimal_percentage_x >.9){
+            decimal_percentage_x = .9;
+        }
+        if(decimal_percentage_y >.9){
+            decimal_percentage_y = .9;
+        }
 
         resetDirection();
         //reduce the speed of either axis
@@ -309,14 +340,34 @@ private boolean stopdrawing = false;
 
     }
 
-  public String coordinatesKey(int  size){
+  public ArrayList<String> coordinatesKey(int  size){
         predictMove();
         int radius = diameter/2;
-      int x  = (int)(predicted_X+radius)/size;
-      int y = (int)(predicted_Y+radius)/size;
+      ArrayList<String>Coordinates = new ArrayList<>();
+      int x  = (int)(predicted_X+radius);
+      int y = (int)(predicted_Y+radius);
+      Coordinates.add((x/size)+"/"+(y/size));
+      //check side
+      int viewX,viewY;
+      if(ball_direction_X  <0){
+          viewX = x - radius;
+      }else{
+          viewX = x +radius;
+      }
+      Coordinates.add((viewX/size)+"/"+(y/size));
+
+      if(ball_direction_Y <0){
+          viewY = y -radius;
+      }else{
+          viewY = y +radius;
+      }
+      Coordinates.add((x/size)+"/"+(viewY/size));
 
 
-      return  x+"/"+y;
+
+
+
+      return Coordinates;
 
     }
     public boolean isOutside() {

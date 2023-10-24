@@ -37,11 +37,19 @@ public class ColllisionChecker {
                 continue;
             }
               //  player.updatePostionMouse((int)ball.getPredicted_X()-5);
-            boolean hit = ball.isHit(player.getPaddle_X(), player.getPaddle_Y(),player.getPaddle_width(),player.getPaddle_height());
+            boolean playerHit = ball.isHit(player.getPaddle_X(), player.getPaddle_Y(),player.getPaddle_width(),player.getPaddle_height());
+            if(playerHit)continue;
 
-            if(hit)continue;
-            String ball_coordinateKey = ball.coordinatesKey(brick_size);
-           if(bricks.findBrick(ball_coordinateKey)){
+            String ball_coordinateKey = null;
+
+            for (String key:ball.coordinatesKey(brick_size)
+                 ) {
+                if(bricks.findBrick(key)){
+                    ball_coordinateKey = key;
+                    break;
+                }
+            }
+            if(ball_coordinateKey == null) continue;
                var brick =  bricks.getBrick(ball_coordinateKey);
                ball.isHit(brick.getX(), brick.getY(),brick.getWidth(),brick.getHeight());
                brick.changeColor();
@@ -54,7 +62,7 @@ public class ColllisionChecker {
                      bricks.removeBrick(ball_coordinateKey);
                      game.reduceBricks();
                 }
-           }
+
 
 
 
