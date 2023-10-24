@@ -1,14 +1,17 @@
 package Code;
 
-import java.util.HashMap;
+import Code.Ball.Ball;
+import Code.Ball.Balls;
+import Code.bricks.Bricks;
+import Code.level.Level;
 
 public class ColllisionChecker {
    private Paddle player;
     private Bricks bricks ;
-    private Balls  balls ;
+    private Balls balls ;
     private  int brick_size;
-    private GameLogic game;
-    public ColllisionChecker(Paddle player, Balls balls,Bricks bricks,GameLogic game) {
+    private Level game;
+    public ColllisionChecker(Paddle player, Balls balls, Bricks bricks, Level game) {
         this.player = player;
         this.bricks=bricks;
         this.balls = balls;

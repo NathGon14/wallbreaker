@@ -1,12 +1,12 @@
-package Code;
+package Code.level;
+
+import Code.bricks.Bricks;
 
 import javax.swing.*;
 import java.awt.*;
 import java.text.DecimalFormat;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
-public class GameLogic extends  MapGenerator {
+public class Level extends  MapGenerator {
 
 
     private  double score;

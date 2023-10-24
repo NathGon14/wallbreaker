@@ -1,4 +1,4 @@
-package Code;
+package Code.Ball;
 
 import javax.swing.*;
 import java.awt.*;

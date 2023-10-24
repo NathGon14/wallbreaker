@@ -1,8 +1,11 @@
 package Code;
 
-import javax.swing.*;
+import Code.Ball.Ball;
+import Code.Ball.Balls;
+import Code.bricks.Bricks;
+import Code.level.Level;
+
 import java.awt.*;
-import java.util.HashMap;
 
 
 public class Painter {
@@ -12,9 +15,9 @@ public class Painter {
     Paddle player;
     Bricks bricks ;
     Balls balls ;
-    GameLogic game;
+    Level game;
 
-    public Painter(Paddle player,Balls balls, Bricks bricks, GameLogic game) {
+    public Painter(Paddle player,Balls balls, Bricks bricks, Level game) {
         this.player = player;
         BOARD_WIDTH = player.getSCREEN_WIDTH();
         BOARD_HEIGHT = player.getSCREEN_HEIGHT();

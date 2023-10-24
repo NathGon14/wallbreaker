@@ -1,16 +1,17 @@
 package Code;
 
+import Code.Ball.Balls;
+import Code.bricks.Bricks;
+import Code.level.Level;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
 
 
 public class Board extends JPanel implements ActionListener {
 
-    private GameLogic game ;
+    private Level game ;
     private int brick_size;
     private int BOARD_HEIGHT;
     private int BOARD_WIDTH;
@@ -18,11 +19,11 @@ public class Board extends JPanel implements ActionListener {
     private Timer timer;
     private Painter painter;
     private Paddle player;
-   private  Balls balls;
+   private Balls balls;
     private Bricks bricks;
     private ColllisionChecker CC;
     private  int delay;
-    public Board( GameLogic game) {
+    public Board( Level game) {
         this.game = game;
         init();
 

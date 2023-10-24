@@ -1,4 +1,4 @@
-package Code;
+package Code.bricks;
 
 import java.awt.*;
 import java.util.HashMap;

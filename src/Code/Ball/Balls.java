@@ -1,4 +1,4 @@
-package Code;
+package Code.Ball;
 
 import java.util.Collection;
 import java.util.HashMap;

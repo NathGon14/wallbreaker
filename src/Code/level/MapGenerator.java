@@ -1,11 +1,14 @@
-package Code;
+package Code.level;
+
+import Code.Ball.Balls;
+import Code.bricks.Bricks;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
 
 public class MapGenerator {
-    protected int brick_size = 30;
+     int brick_size = 30;
     private int delay = 5;
     protected int ball_diameter = 20;
     protected int number_of_bricks_on_width = 12;

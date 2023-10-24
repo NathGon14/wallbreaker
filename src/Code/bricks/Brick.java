@@ -1,6 +1,5 @@
-package Code;
+package Code.bricks;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
 
