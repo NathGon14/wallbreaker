@@ -10,8 +10,6 @@ public class Game extends JFrame {
     add(new Board(game));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(game.getBOARD_WIDTH()+(game.getBrick_size()/2)+5, game.getBOARD_HEIGHT()+game.getBrick_size()+10);
-
         setLocationRelativeTo(null);
-
     }
 }

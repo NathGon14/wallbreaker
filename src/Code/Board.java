@@ -84,6 +84,7 @@ public class Board extends JPanel implements ActionListener {
         player.enableMovement();
         CC.checkCollsion();
         painter.draw(g);
+
     }
     public  void  checkGameStatus(Graphics g2d){
         switch (game.getStatus()){
@@ -108,22 +109,17 @@ public class Board extends JPanel implements ActionListener {
     @Override
     public void addNotify() {
         super.addNotify();
-        print();
+
     }
 
-    public void print() {
-        System.out.println("hellow");
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         repaint();
     }
 
 
     class TAdapter extends KeyAdapter {
-
         @Override
         public void keyPressed(KeyEvent e) {
 
@@ -144,51 +140,6 @@ public class Board extends JPanel implements ActionListener {
 
 
     class MouseListenerHandler implements MouseMotionListener{
-
-
-
-        MouseListenerHandler(){
-
-        }
-        public void mouseScrolled(MouseEvent e){
-
-        }
-
-
-        public void mouseClicked(MouseEvent e) {
-
-
-            int x = e.getClickCount();
-            System.out.println("You CLICKED the mouse " + x + " times.");
-        }
-
-
-        public void mouseEntered(MouseEvent e) {
-
-
-        }
-
-
-        public void mouseExited(MouseEvent e) {
-
-        }
-
-
-        public void mousePressed(MouseEvent e) {
-            System.out.println("You have PRESSED the mouse");
-            int a =  e.getX();
-            int b = e.getY();
-
-            System.out.println("You have RELEASED the mouse at (" + a + "," + b + ") - (X,Y)");
-        }
-
-
-
-        public void mouseReleased(MouseEvent e) {
-
-
-
-        }
 
         @Override
         public void mouseDragged(MouseEvent e) {

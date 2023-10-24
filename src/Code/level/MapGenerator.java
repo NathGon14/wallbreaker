@@ -16,17 +16,15 @@ public class MapGenerator {
     private  int heightOffset = 7;//how far the bricks from the top
     private  int number_row = 2;//how rows of bricks
     private Random random = new Random();
-
     protected int BOARD_HEIGHT = brick_size * height_multiplier;
     protected int BOARD_WIDTH = brick_size * number_of_bricks_on_width;
     private String mapStucture [][];
     protected  int level;
-    protected  int maxLevel = 10000;
+    protected  int maxLevel = 5;
     protected Image ballImage = new ImageIcon("src/Images/ball.png").getImage().getScaledInstance(ball_diameter,ball_diameter,Image.SCALE_DEFAULT);;
     protected Image background = new ImageIcon("src/Images/background.png").getImage().getScaledInstance(BOARD_WIDTH,BOARD_HEIGHT,Image.SCALE_DEFAULT);;
 
     private  String [] rowStructure ={"full","alternate","besides","middle","left","right"};
-
 
     public void generateLevel(Bricks bricks){
         String [][]  mapData = new String[BOARD_HEIGHT/brick_size][number_of_bricks_on_width];
@@ -105,10 +103,6 @@ public class MapGenerator {
         return BOARD_WIDTH;
     }
 
-    public Image getBallImage() {
-        return ballImage;
-    }
-
     public Image getBackground() {
         return background;
     }
@@ -120,7 +114,4 @@ public class MapGenerator {
         this.level = 0;
     }
 
-    public int getLevel() {
-        return level;
-    }
 }

@@ -6,51 +6,66 @@ import java.awt.*;
 import static java.lang.Math.*;
 
 public class Ball {
-    ImageIcon icon = new ImageIcon("src/Images/ball.png");
-    Image scaleImage;
-    private double speed = 6;
-    private int strength = 1;
-    private int BOARD_HEIGHT;
-    private int BOARD_WIDTH;
-    private int diameter = 25;
+    ImageIcon icon = new ImageIcon("src/Images/ball.png");// Image of the ball
+    Image scaleImage;// scale Image of the ball
+    private double speed = 6; // how fast is the ball
+    private int strength = 1;// ball damage when it hit the brick
+    private int BOARD_HEIGHT; // the Screen height
+    private int BOARD_WIDTH;// the Screen height
+    private int diameter; // diameter  of the ball
 
-    private double ball_X;
-    private double ball_Y;
-    private  double ball_direction_X,ball_direction_Y;
-    private double predicted_X, predicted_Y;
-    private boolean disabled = false;
-    private boolean outside = false;
-    public Ball(int BOARD_WIDTH, int BOARD_HEIGHT,int diameter,int strength) {
-        this.BOARD_WIDTH = BOARD_WIDTH;
-        this.BOARD_HEIGHT = BOARD_HEIGHT;
-        this.diameter = diameter;
+    private double ball_X; // ball X coordinate
+    private double ball_Y; // ball Y coordinate
+    private  double ball_direction_X; // the direction of the ball  X = 1; ball is going to the right x = -1; ball is going to the left
+    private  double ball_direction_Y; // the direction of the ball  Y = 1; ball is going down  Y = -1; ball is going up
+    private double predicted_X, predicted_Y; // ahead of ball_x and ball_y coordinates
+    private boolean disabled = false; // use for checking if the ball is available
+    private boolean outside = false; // use for checking if the ball is outside the screen or it fell in the bottom of the screen
 
-        reset();
-
-    }
+   //constructor
     public Ball(int BOARD_WIDTH, int BOARD_HEIGHT,int diameter) {
+        //assigning the properties variables
         this.BOARD_WIDTH = BOARD_WIDTH;
         this.BOARD_HEIGHT = BOARD_HEIGHT;
         this.diameter = diameter;
-        reset();
+        reset();//reset method called for bring the ball to the default position
 
     }
-    public Ball(int BOARD_WIDTH, int BOARD_HEIGHT,double direction,int diameter) {
-        this.BOARD_WIDTH = BOARD_WIDTH;
-        this.BOARD_HEIGHT = BOARD_HEIGHT;
-        this.diameter = diameter;
-        reset();
+//    public Ball(int BOARD_WIDTH, int BOARD_HEIGHT,int diameter,int strength) {
+//        this.BOARD_WIDTH = BOARD_WIDTH;
+//        this.BOARD_HEIGHT = BOARD_HEIGHT;
+//        this.diameter = diameter;
+//
+//        reset();
+//
+//    }
+//
+//    public Ball(int BOARD_WIDTH, int BOARD_HEIGHT,double direction,int diameter) {
+//        this.BOARD_WIDTH = BOARD_WIDTH;
+//        this.BOARD_HEIGHT = BOARD_HEIGHT;
+//        this.diameter = diameter;
+//        reset();
+//
+//    }
 
-    }
+
+
+
+   //this method is used for reseting the ball to its initial state
     public void reset(){
-         scaleImage  = icon.getImage().getScaledInstance(this.diameter, this.diameter,Image.SCALE_DEFAULT);
-        setOutside(false);
-        setBallPosition( BOARD_WIDTH/2  , BOARD_HEIGHT - (diameter*6) );
-        setDirection("top-right");
+        scaleImage  = icon.getImage().getScaledInstance(this.diameter, this.diameter,Image.SCALE_DEFAULT);//Image of the ball
+
+        setOutside(false);//bring the ball inside the screen
+        setBallPosition( BOARD_WIDTH/2  , BOARD_HEIGHT - (diameter*6) ); //positioning the ball to its initial or default state
+        setDirection("top-right"); // the direction which the ball is going
 
     }
+
+    //method for setting the X and Y coordinates in which the ball is going
     public void setDirection(String direction) {
 
+        // the direction of the ball  X = 1; ball is going to the right x = -1; ball is going to the left
+        // the direction of the ball  Y = 1; ball is going down  Y = -1; ball is going up
         switch (direction){
             case"down-right":
                 this.ball_direction_X = 1;
@@ -68,9 +83,7 @@ public class Ball {
                 this.ball_direction_X = 1;
                 this.ball_direction_Y = -1;
                 break;
-
         }
-
 
 
     }
@@ -83,62 +96,80 @@ public class Ball {
 //            return;
 //
 //    }
-        public void drawBall(Graphics g2d) {
+
+
+
+    //method use for drawing the ball in the screen
+    public void drawBall(Graphics g2d) {
      g2d.drawImage(scaleImage,(int)ball_X, (int) ball_Y,null);
     }
 
+
+    //method for moving the ball
     public void  moveBall(){
-        if (stopdrawing) return;
         ball_X =  (ball_X + ball_direction_X * speed);
         ball_Y =  (ball_Y + ball_direction_Y * speed);
     }
+    //method for moving the ball one step ahead of the current position of the ball
     public void predictMove(){
         predicted_X =  (ball_X + ball_direction_X * (speed));
         predicted_Y =  (ball_Y + ball_direction_Y * (speed));
     }
-    public boolean collidedOnScreen() {
-        predictMove();
 
-        boolean collided = true;
+    // method for checking if the ball collided on each side of the screen
+    public boolean collidedOnScreen() {
+        predictMove(); //one step ahead of the ball current positon
+        boolean collided = true; // variable to tell if the ball collided on the side of the screen
 
         // ball hit the right side of the board
+        // if else statement for each side
+        // if the ball hit the side of the screen
+        // revers
         if (predicted_X + (diameter) >= BOARD_WIDTH) {
-            ball_direction_X = -ball_direction_X;
-            ball_X = BOARD_WIDTH - (diameter);
-            ball_Y = predicted_Y;
+            inverseX(); //reverse the X
+            setBallPosition(BOARD_WIDTH - (diameter),predicted_Y); //move the ball
         }else if (predicted_X <= 0) {
-            ball_direction_X = -ball_direction_X;
-            ball_X = 0;
-            ball_Y = predicted_Y;
+            inverseX(); //reverse the X
+            setBallPosition(0,predicted_Y);//move the ball
+
         } else if (predicted_Y <= 0  ) {    // ball hit the top
-
-            ball_direction_Y = -ball_direction_Y;
-
-            ball_Y = 0;
-            ball_X= predicted_X;
+            inverseY();//reverse the Y
+            setBallPosition(predicted_X,0);//move the ball
         } else  if (predicted_Y >= BOARD_HEIGHT ) {    // ball falls down at the bottom
-            ball_direction_Y = -ball_direction_Y;
-            ball_X = predicted_X;
-            ball_Y = BOARD_HEIGHT - (diameter);
-            setOutside(true);
-        }else  {
-            collided =false;
-            moveBall();
+            inverseY();//reverse the Y
+            setBallPosition(predicted_X,BOARD_HEIGHT - (diameter));//move the ball not necessary but to display the ball falling outside
+            setOutside(true);//set the ball outside;
+        }else  {// did not collided on any side of the screen
+            collided =false; // change collided to false beacause it didnt collided
+            moveBall(); // move the ball
         }
          return  collided;
     }
 
 
 
+    //method use for figuring out whether the ball collided on the paddle or the bricks
     public boolean isHit(int x_position, int y_position , int width, int height) {
-        predictMove();
-        int collided_height= height;
-        var collided_width= width;
+        predictMove();// move the ball on step ahead of the current position
 
-        var collided_left= x_position;
-        var collided_top=y_position;
-        var collided_right= collided_left +collided_width;
-        var collided_bottom= collided_top +collided_height;
+        int collided_height= height;// the height of where the ball collided
+        var collided_width= width; // the width of where the ball collided
+
+        var collided_left= x_position;// the X coordinate of where the ball collided
+        var collided_top=y_position; // the Y coordinate of where the ball collided
+        var collided_right= collided_left +collided_width; ; // right side of X coordinate
+        var collided_bottom= collided_top +collided_height; // bottom side of Y coordinate
+        //     (x,y) = (0,5) , width:5 height:5
+        //                                      top: 5
+        //        --------------             --------------
+        //        |            |             |            |
+        //        |            |             |            |
+        // left:0 |            | Right:5     |            |
+        //        |            |             |            |
+        //        |            |             |            |
+        //        --------------             --------------
+        //                                     Bottom: 10
+
         boolean hit =false;
 
         String collided_side = "none";
@@ -219,7 +250,6 @@ public class Ball {
     }
 private boolean stopdrawing = false;
     private void bounce(String ballSideCollided,double collidedLeft, double collidedRight, double collidedBottom, double collidedTop) {
-
 
     switch (ballSideCollided){
         case "top":

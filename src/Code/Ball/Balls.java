@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 public class Balls {
 
-    private boolean disabled = false;
     private HashMap<Ball, Ball> Balls = new HashMap<>();
     private int board_width;
     private int board_height;
@@ -25,12 +24,8 @@ public class Balls {
             ball.reset();
         }
     }
-
-
     public Collection<Ball> getBalls() {
         return Balls.values();
     }
-
-
 
 }

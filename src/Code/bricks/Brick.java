@@ -1,6 +1,8 @@
 package Code.bricks;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.util.Random;
 
 public class Brick {
@@ -38,8 +40,8 @@ public class Brick {
 
 
     public void drawBrick(Graphics g2d){
-
-
+        BufferedImage bf = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+        g2d.drawImage(bf,x,y,null);
       g2d.drawImage(imageView,x,y,null);
 
 
