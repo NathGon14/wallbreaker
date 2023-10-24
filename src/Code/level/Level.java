@@ -4,6 +4,7 @@ import Code.bricks.Bricks;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.text.DecimalFormat;
 
 public class Level extends  MapGenerator {
@@ -25,7 +26,8 @@ public class Level extends  MapGenerator {
     Font font = new Font(fontStyle, Font.BOLD, fontSize);
     int modalSize = (number_of_bricks_on_width-1)*brick_size;
 
-    protected Image modalImage = new ImageIcon("wallbreaker/src/Images/modal.png").getImage().getScaledInstance(modalSize,modalSize,Image.SCALE_DEFAULT);
+
+    protected Image modalImage = new ImageIcon( new File("src/Images/modal.png").getAbsolutePath()).getImage().getScaledInstance(modalSize,modalSize,Image.SCALE_DEFAULT);
 
     DecimalFormat formatter = new DecimalFormat("#,###");
     public  void drawScreenData(Graphics g2d){

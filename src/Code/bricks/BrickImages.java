@@ -21,19 +21,19 @@ public class BrickImages {
         if(toughness > 5){
             toughness = 5;
         }
-        this.pathname = pathname+toughness;
-
+        this.pathname =new File(pathname+toughness).getAbsolutePath();
         this.toughness =toughness;
             this.size = size;
         loadImages();
     }
     public void loadImages(){
+
         File folder = new File(this.pathname);
         File[] listOfFiles = folder.listFiles();
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
 
-                Image frame = new ImageIcon(pathname+"/"+ listOfFiles[i].getName()).getImage()
+                Image frame = new ImageIcon( pathname+"/"+ listOfFiles[i].getName()).getImage()
                         .getScaledInstance(size,size,Image.SCALE_DEFAULT);
                 brickImages.add(frame);
             }

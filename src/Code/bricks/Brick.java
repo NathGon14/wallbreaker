@@ -3,6 +3,7 @@ package Code.bricks;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+import java.io.File;
 import java.util.Random;
 
 public class Brick {
@@ -16,14 +17,14 @@ public class Brick {
     private boolean disabled =false;
     private  Color color;
 
-    String image_path = "wallbreaker/src/Images/bricks/";
+
+    String image_path = "src/Images/bricks/";
     private int folderName;
     private Image imageView;
 
     BrickImages brickImage;
     public Brick(int toughness,int size,int x,int y){
         this.toughness= toughness;
-
         folderName = this.toughness;
         width = size;
         height = size;

@@ -5,6 +5,7 @@ import Code.bricks.Bricks;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.util.Random;
 
 public class MapGenerator {
@@ -21,8 +22,10 @@ public class MapGenerator {
     private String mapStucture [][];
     protected  int level;
     protected  int maxLevel = 5;
-    protected Image ballImage = new ImageIcon("wallbreaker/src/Images/ball.png").getImage().getScaledInstance(ball_diameter,ball_diameter,Image.SCALE_DEFAULT);;
-    protected Image background = new ImageIcon("wallbreaker/src/Images/background.png").getImage().getScaledInstance(BOARD_WIDTH,BOARD_HEIGHT,Image.SCALE_DEFAULT);;
+
+    protected Image ballImage = new ImageIcon(   new File("src/Images/ball.png").getAbsolutePath()).getImage().getScaledInstance(ball_diameter,ball_diameter,Image.SCALE_DEFAULT);;
+
+    protected Image background = new ImageIcon( new File("src/Images/background.png").getAbsolutePath()).getImage().getScaledInstance(BOARD_WIDTH,BOARD_HEIGHT,Image.SCALE_DEFAULT);;
 
     private  String [] rowStructure ={"full","alternate","besides","middle","left","right"};
 
