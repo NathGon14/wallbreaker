@@ -21,7 +21,7 @@ public class Paddle {
         paddle_width = (int) (SCREEN_WIDTH * scale_width);
         reset();
         speed = paddle_width / 2;
-        paddleImage = new ImageIcon("src/Images/paddle.png").getImage().getScaledInstance(paddle_width, paddle_height, Image.SCALE_DEFAULT);
+        paddleImage = new ImageIcon("wallbreaker/src/Images/paddle.png").getImage().getScaledInstance(paddle_width, paddle_height, Image.SCALE_DEFAULT);
     }
     public void reset(){
         paddle_Y = SCREEN_HEIGHT - (brick_size * 3);

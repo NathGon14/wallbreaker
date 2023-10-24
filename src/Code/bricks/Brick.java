@@ -16,7 +16,7 @@ public class Brick {
     private boolean disabled =false;
     private  Color color;
 
-    String image_path = "./src/Images/bricks/";
+    String image_path = "wallbreaker/src/Images/bricks/";
     private int folderName;
     private Image imageView;
 

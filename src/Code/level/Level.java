@@ -25,7 +25,7 @@ public class Level extends  MapGenerator {
     Font font = new Font(fontStyle, Font.BOLD, fontSize);
     int modalSize = (number_of_bricks_on_width-1)*brick_size;
 
-    protected Image modalImage = new ImageIcon("src/Images/modal.png").getImage().getScaledInstance(modalSize,modalSize,Image.SCALE_DEFAULT);
+    protected Image modalImage = new ImageIcon("wallbreaker/src/Images/modal.png").getImage().getScaledInstance(modalSize,modalSize,Image.SCALE_DEFAULT);
 
     DecimalFormat formatter = new DecimalFormat("#,###");
     public  void drawScreenData(Graphics g2d){

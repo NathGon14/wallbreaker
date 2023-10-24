@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import static java.lang.Math.*;
 
 public class Ball {
-    ImageIcon icon = new ImageIcon("src/Images/ball.png");// Image of the ball
+    ImageIcon icon = new ImageIcon("wallbreaker/src/Images/ball.png");// Image of the ball
     Image scaleImage;// scale Image of the ball
     private double speed = 6; // how fast is the ball
     private int strength = 1;// ball damage when it hit the brick
