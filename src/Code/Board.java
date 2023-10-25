@@ -49,6 +49,7 @@ public class Board extends JPanel implements ActionListener {
         CC = new ColllisionChecker(player, balls, bricks,game);
 
         game.generateBall(balls);
+        game.generateBall(balls);
         game.generateLevel(bricks);
         game.gameReset();
         nextLevel();
