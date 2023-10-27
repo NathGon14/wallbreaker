@@ -25,11 +25,10 @@ public class Board extends JPanel implements ActionListener {
     private  int delay;
     public Board( Level game) {
         this.game = game;
-        init();
+        init(); // starting the neccesary things
 
     }
     public  void init() {
-
        brick_size = game.getBrick_size();
        BOARD_HEIGHT =game.getBOARD_HEIGHT();
        BOARD_WIDTH= game.getBOARD_WIDTH();
@@ -42,71 +41,64 @@ public class Board extends JPanel implements ActionListener {
         setBackground(Color.white);
         addKeyListener(new TAdapter());
         addMouseMotionListener(new MouseListenerHandler());
-
         timer = new Timer(delay,this);
         timer.start();
         painter = new Painter(player, balls, bricks,game);
         CC = new ColllisionChecker(player, balls, bricks,game);
-
-        game.generateBall(balls);
-        game.generateBall(balls);
-        game.generateLevel(bricks);
-        game.gameReset();
-        nextLevel();
+        gameReset();
 
     }
+    public void gameReset(){
+        backTodefault();
+        nextLevel();
+    }
+
     public  void  nextLevel(){
-        //reset balls in to the middle
         balls.resetBalls();
-        //reset player position
-        player.reset();
         game.increaseLevel();
-        //generate another map
-        game.generateLevel(bricks);
-        //
-        game.getRemainingBricks(bricks);
+        game.generateMap(bricks);
+        game.generateBall(balls);
         game.addBall();
-        game.setStatus("Starting");
-        game.resetRemainingTimeCounter();
+        game.addTime();
+        game.setCountDown(3);
+    }
+    public  void  backTodefault(){
+        game.backDefault();
+        balls.destroy(); // remove all the balls
+        game.generateBall(balls);
+        player.reset();
+        balls.resetBalls();
     }
 
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if(game.allGood() == false){
+        String gameStatus = game.status();
+
+        if(gameStatus.equals("in game")) player.enableMovement();
+        else{
             player.disableMovement();
             player.reset();
-            painter.draw(g);
-            game.pause();
-            checkGameStatus(g);
-            return;
         }
-        player.enableMovement();
-        CC.checkCollsion();
-        painter.draw(g);
-
-    }
-    public  void  checkGameStatus(Graphics g2d){
-        switch (game.getStatus()){
-            case "starting":
-                painter.drawIntermission(g2d,"Game start in");
-                break;
-            case "completed":
-                painter.drawIntermission(g2d,"You beat the game!!!");
-                break;
-            case "lose":
-                painter.drawIntermission(g2d,"You lose");
-                break;
-            case "next":
-                game.addTime();
-                nextLevel();
-                break;
-
+        if(gameStatus.equals("in game")){
+            //check collision
+            CC.checkCollsion();
+            painter.drawInGame(g);
+        }else if(gameStatus.equals("countdown")){
+            painter.drawModal(g,"GAME START IN: ");
+        }else if (gameStatus.equals("time")){
+            painter.drawModal(g,"LOSE IN TIME");
+        }else if (gameStatus.equals("ball")){
+            painter.drawModal(g,"OUT OF BALL");
+        }
+        else if (gameStatus.equals("next level")){
+            nextLevel();
+            painter.drawInGame(g);
         }
 
-
     }
+
     @Override
     public void addNotify() {
         super.addNotify();
@@ -116,9 +108,10 @@ public class Board extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        repaint();
-    }
 
+        repaint();
+
+    }
 
     class TAdapter extends KeyAdapter {
         @Override
@@ -126,17 +119,16 @@ public class Board extends JPanel implements ActionListener {
 
             int key = e.getKeyCode();
             if (key == KeyEvent.VK_ENTER) {
-                game.gameReset();
-                nextLevel();
+                gameReset();
+
             } else if (key == KeyEvent.VK_SPACE) {
-                game.removeCountDown();
+                if(game.status().equals("countdown")) game.removeCountdown();
+
             }
 
         }
 
     }
-
-
 
 
 

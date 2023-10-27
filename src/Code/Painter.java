@@ -25,42 +25,27 @@ public class Painter {
         this.balls = balls;
         this.game = game;
     }
-    public  void  draw(Graphics g2d){
+    public  void  drawInGame(Graphics g2d){
+        drawNessesary(g2d);
+    }
+    public  void  drawModal(Graphics g2d,String message){
+        drawNessesary(g2d);
+        game.drawIntermision(g2d,message);
+    }
+    private  void  drawNessesary(Graphics g2d){
         drawBackGround(g2d);
-        drawScreenData(g2d);
-        paintBricks(g2d);
-        drawPlayer( g2d);
-        drawBall(g2d);
-
-    }
-    public  void drawScreenData(Graphics g2d){
-           game.drawScreenData(g2d);
-
-    }
-    public  void drawIntermission(Graphics g2d,String title){
-        game.drawIntermision(g2d,title);
-    }
-    public void paintBricks(Graphics g2d){
         bricks.drawBricks(g2d);
+        game.drawScreenData(g2d);
+        balls.drawBalls(g2d);
+        player.drawPaddle(g2d);
     }
+
+
     public void drawBackGround(Graphics g2d){
        g2d.drawImage(game.getBackground(),0,0,null);
     }
 
-    public  void  drawPlayer(Graphics g2d){
 
-        player.drawPaddle(g2d);
-
-    }
-
-
-    public  void  drawBall(Graphics g2d){
-        for (Ball ball:balls.getBalls()
-        ) {
-           ball.drawBall(g2d);
-        }
-
-    }
 
 
 }

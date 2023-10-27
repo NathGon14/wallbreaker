@@ -1,11 +1,13 @@
 package Code.Ball;
 
-import java.util.Collection;
+import java.awt.*;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class Balls {
 
-    private HashMap<Ball, Ball> Balls = new HashMap<>();
+    private HashMap<Ball, Ball> Balls;
     private int board_width;
     private int board_height;
     public Balls (int board_width,int board_height){
@@ -24,8 +26,25 @@ public class Balls {
             ball.reset();
         }
     }
-    public Collection<Ball> getBalls() {
-        return Balls.values();
+    public  int size(){
+        return Balls.size();
+    }
+    public void removeBall(Ball ball){
+        Balls.remove(ball);
+    }
+    public void destroy(){
+        Balls =  new HashMap<>();
+    }
+    public void drawBalls(Graphics g2d){
+        for (Ball ball:Balls.values()
+        ) {
+            ball.drawBall(g2d);
+        }
+
+    }
+    public HashMap<Ball, Ball> getBalls() {
+        return Balls;
+
     }
 
 }
